@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Néon Inconnu : le site officiel</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 1s ease-in-out;
+        }
+
+        h1 { font-size: 2.5rem; color: #FFFF00; }
+        h4 { color: #C0DFEF; }
+        p { font-size: 1.2rem; max-width: 600px; }
+
+        .cover {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Compte à rebours */
+        .countdown p { font-size: 1.5rem; margin: 5px; }
+
+        /* Popup cookies */
+        .popup {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 20vh;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0px -5px 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .popup button {
+            background-color: gold;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Formulaire */
+        .form-container {
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #222;
+            border: 1px solid #555;
+            color: white;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: gold;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Néon Inconnu</h1>
+    <h4>Le site officiel du jeune rappeur</h4>
+    <img src="Néon Inconnu.png" alt="Le logo du jeune talent" width="300" height="300">
+
+    <p>Le jeune rappeur de 12 ans connu sous le nom de Néon Inconnu, collabore avec un Beatmaker du nom de CyBoom. Son album <strong>Égaré</strong> sort le <strong>29 mars 2025</strong>.</p>
+
+    <!-- Cover de l'album -->
+    <img src="cover.jpg" alt="Cover de l'album Égaré" class="cover">
+
+    <h1 id="titre">⌛ Compte à rebours</h1>
+    <div class="countdown">
+        <p><span id="jours">00</span> Jours</p>
+        <p><span id="heures">00</span> Heures</p>
+        <p><span id="minutes">00</span> Minutes</p>
+        <p><span id="secondes">00</span> Secondes</p>
+    </div>
+
+    <!-- Formulaire de contact -->
+    <div class="form-container">
+        <h2>📩 Contacte-moi</h2>
+        <form action="https://formspree.io/f/mzzeerjq" method="POST">
+            <input type="hidden" name="_next" value="https://ton-site.com">
+            <label>
+                Nom :
+                <input type="text" name="name" required>
+            </label>
+            <label>
+                Message :
+                <textarea name="message" required></textarea>
+            </label>
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+
+    <!-- Popup cookies -->
+    <div class="popup" id="popup">
+        <p>🍪 Ce site utilise des cookies et peut déclencher des effets visuels et sonores.</p>
+        <button id="acceptButton">Accepter</button>
+    </div>
+
+    <!-- Lecteur audio -->
+    <audio id="musique" src="Ti Amo.mp3"></audio>
+
+    <script>
+        let effetActive = false;
+
+        // Date de sortie de l'album
+        const dateSortie = new Date("March 29, 2025 15:00:00").getTime();
+
+        function countdown() {
+            const maintenant = new Date().getTime();
+            const difference = dateSortie - maintenant;
+
+            if (difference <= 0 && effetActive) {
+                lancerEffet();
+                return;
+            }
+
+            const jours = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const heures = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const secondes = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("jours").textContent = jours;
+            document.getElementById("heures").textContent = heures;
+            document.getElementById("minutes").textContent = minutes;
+            document.getElementById("secondes").textContent = secondes;
+        }
+
+        function lancerEffet() {
+            document.body.style.backgroundColor = "gold";
+            document.getElementById("titre").innerHTML = "🎉 L'album 'Égaré' est sorti ! 🎶";
+
+            const musique = document.getElementById("musique");
+            musique.play().catch(error => console.log("Erreur audio : " + error));
+        }
+
+        countdown();
+        setInterval(countdown, 1000);
+
+        document.getElementById("acceptButton").addEventListener("click", function() {
+            document.getElementById("popup").style.display = "none";
+            effetActive = true;
+            if (new Date().getTime() >= dateSortie) {
+                lancerEffet();
+            }
+        });
+    </script>
+
+</body>
+</html>
