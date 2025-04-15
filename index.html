@@ -24,17 +24,6 @@
         h4 { color: #C0DFEF; }
         p { font-size: 1.2rem; max-width: 600px; }
 
-        .cover {
-            width: 300px;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        /* Compte à rebours */
-        .countdown p { font-size: 1.5rem; margin: 5px; }
-
         /* Popup cookies */
         .popup {
             position: fixed;
@@ -95,18 +84,7 @@
     <h4>Le site officiel du jeune rappeur</h4>
     <img src="Néon Inconnu.png" alt="Le logo du jeune talent" width="300" height="300">
 
-    <p>Le jeune rappeur de 12 ans connu sous le nom de Néon Inconnu, collabore avec un Beatmaker du nom de CyBoom. Son album <strong>Égaré</strong> sort le <strong>12 Avril 2025</strong>.</p>
-
-    <!-- Cover de l'album -->
-    <img src="cover.jpg" alt="Cover de l'album Égaré" class="cover">
-
-    <h1 id="titre">⌛ Compte à rebours</h1>
-    <div class="countdown">
-        <p><span id="jours">00</span> Jours</p>
-        <p><span id="heures">00</span> Heures</p>
-        <p><span id="minutes">00</span> Minutes</p>
-        <p><span id="secondes">00</span> Secondes</p>
-    </div>
+    <p>Le jeune rappeur de 12 ans connu sous le nom de Néon Inconnu, collabore avec un Beatmaker du nom de CyBoom.</p>
 
     <!-- Formulaire de contact -->
     <div class="form-container">
@@ -135,50 +113,14 @@
     <audio id="musique" src="Ti Amo.mp3"></audio>
 
     <script>
-        let effetActive = false;
+        const acceptButton = document.getElementById('acceptButton');
+        const popup = document.getElementById('popup');
 
-        // Date de sortie de l'album
-        const dateSortie = new Date("April 12, 2025 15:00:00").getTime();
-
-        function countdown() {
-            const maintenant = new Date().getTime();
-            const difference = dateSortie - maintenant;
-
-            if (difference <= 0 && effetActive) {
-                lancerEffet();
-                return;
-            }
-
-            const jours = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const heures = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const secondes = Math.floor((difference % (1000 * 60)) / 1000);
-
-            document.getElementById("jours").textContent = jours;
-            document.getElementById("heures").textContent = heures;
-            document.getElementById("minutes").textContent = minutes;
-            document.getElementById("secondes").textContent = secondes;
-        }
-
-        function lancerEffet() {
-            document.body.style.backgroundColor = "gold";
-            document.getElementById("titre").innerHTML = "🎉 L'album 'Égaré' est sorti ! 🎶";
-
-            const musique = document.getElementById("musique");
-            musique.play().catch(error => console.log("Erreur audio : " + error));
-        }
-
-        countdown();
-        setInterval(countdown, 1000);
-
-        document.getElementById("acceptButton").addEventListener("click", function() {
-            document.getElementById("popup").style.display = "none";
-            effetActive = true;
-            if (new Date().getTime() >= dateSortie) {
-                lancerEffet();
-            }
+        acceptButton.addEventListener('click', () => {
+            popup.style.display = 'none';
         });
     </script>
 
 </body>
 </html>
+
